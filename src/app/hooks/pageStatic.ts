@@ -1,4 +1,4 @@
-import { ContextPageStatic } from "@/providers/pageStatic"
+import { ContextPageStatic } from "@/providers/ProductProvider"
 import { useContext } from "react"
 
 const usePageStatic = () => {

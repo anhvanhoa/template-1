@@ -7,8 +7,14 @@ import {
 import React from 'react';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import { cn } from '@/lib/utils';
+import { BannerType } from '@/types/banner';
+import Link from 'next/link';
 
-const Banner = () => {
+type Props = {
+    banners: BannerType;
+};
+
+const Banner = ({ banners }: Props) => {
     const [api, setApi] = React.useState<CarouselApi>();
     const [current, setCurrent] = React.useState(0);
     const [count, setCount] = React.useState(0);
@@ -33,18 +39,17 @@ const Banner = () => {
                 className='col-span-3 rounded-xl overflow-hidden'
             >
                 <CarouselContent>
-                    <CarouselItem
-                        className='aspect-[16/7] bg-cover bg-center'
-                        style={{
-                            backgroundImage: `url('/banner-1.jpg')`
-                        }}
-                    ></CarouselItem>
-                    <CarouselItem
-                        className='aspect-[16/7] bg-cover bg-center'
-                        style={{
-                            backgroundImage: `url('/banner-2.webp')`
-                        }}
-                    ></CarouselItem>
+                    {banners.main.map((banner) => (
+                        <CarouselItem
+                            key={banner.id}
+                            className='aspect-[16/7] bg-cover bg-center relative'
+                            style={{
+                                backgroundImage: `url(${banner.image})`
+                            }}
+                        >
+                            <Link href={banner.link} className='absolute inset-0' />
+                        </CarouselItem>
+                    ))}
                 </CarouselContent>
                 <CarouselPrevious className='left-0 shadow-none rounded-s-none border-none bg-white/60' />
                 <CarouselNext className='right-0 shadow-none rounded-e-none border-none bg-white/60' />
@@ -63,7 +68,7 @@ const Banner = () => {
             <div
                 className='bg-center bg-cover rounded-xl h-full'
                 style={{
-                    backgroundImage: 'url(/product.jpg)'
+                    backgroundImage: `url(${banners.sub.image})`
                 }}
             ></div>
         </div>

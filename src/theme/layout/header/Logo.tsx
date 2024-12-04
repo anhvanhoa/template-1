@@ -1,16 +1,26 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
-const Logo = () => {
+type Props = {
+    logo: {
+        src: string;
+        alt: string;
+    };
+};
+
+const Logo = ({ logo }: Props) => {
     return (
         <div>
-            <Image
-                className='rounded-md size-9'
-                src='/logo.png'
-                alt='Logo'
-                width={50}
-                height={50}
-            />
+            <Link href={'/'}>
+                <Image
+                    className='rounded-md size-9'
+                    src={logo.src}
+                    alt={logo.alt}
+                    width={80}
+                    height={80}
+                />
+            </Link>
         </div>
     );
 };

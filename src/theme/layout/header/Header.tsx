@@ -4,6 +4,29 @@ import Nav from './Nav';
 import HeaderR from './HeaderR';
 import { cn } from '@/lib/utils';
 
+const logo = {
+    src: '/logo.png',
+    alt: 'AnhVanHoa'
+};
+const navs = [
+    {
+        label: 'Mac',
+        href: '/danh-muc/mac'
+    },
+    {
+        label: 'iPhone',
+        href: '/danh-muc/iphone'
+    },
+    {
+        label: 'iPad',
+        href: '/danh-muc/ipad'
+    },
+    {
+        label: 'Phụ kiện',
+        href: '/danh-muc/phu-kien'
+    },
+];
+
 const Header = () => {
     return (
         <header className='border-b'>
@@ -13,8 +36,8 @@ const Header = () => {
                 )}
             >
                 <div className='flex items-center gap-14'>
-                    <Logo />
-                    <Nav />
+                    <Logo logo={logo} />
+                    <Nav navs={navs} />
                 </div>
                 <HeaderR />
             </div>

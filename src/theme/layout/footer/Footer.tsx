@@ -146,7 +146,7 @@ export default function Footer({ className }: Props) {
                 </div>
                 <div className='items-centers grid grid-cols-1 justify-between gap-4 border-t border-gray-100 py-6 md:grid-cols-2'>
                     <p className='text-sm/6 text-slate-600 max-md:text-center'>
-                        © 2024 Copyright Web
+                        © 2024 Template - Anh Van Hoa
                     </p>
                     <div className='flex items-center justify-center space-x-4 text-sm/6 font-semibold text-slate-900 md:justify-end'></div>
                 </div>

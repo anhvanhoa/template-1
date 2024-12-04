@@ -9,7 +9,7 @@ const HeaderR = () => {
         <div className='flex justify-end gap-2 items-center'>
             <Search />
             <Cart />
-            <Link href={'dang-nhap'}>
+            <Link href={'/dang-nhap'}>
                 <Button className='border border-primary rounded-full py-1.5 font-medium'>
                     Đăng nhập
                 </Button>

@@ -4,23 +4,26 @@ import { cn } from '@/lib/utils';
 import { MinusIcon, PlusIcon } from 'lucide-react';
 import React from 'react';
 
-const max = 10;
+type Props = {
+    max: number;
+    quantity: number;
+};
 
-const Quantity = () => {
-    const [quantity, setQuantity] = React.useState(1);
+const Quantity = (props: Props) => {
+    const [quantity, setQuantity] = React.useState(props.quantity);
     const increment = () => setQuantity((prev) => prev + 1);
     const decrement = () => setQuantity((prev) => Math.max(1, prev - 1));
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (quantity >= max || quantity <= 1) return;
+        if (quantity >= props.max || quantity <= 1) return;
         const value = Number(e.target.value);
         if (value > 0) setQuantity(value);
     };
     return (
         <div className='flex items-center border rounded-md overflow-hidden'>
             <span
-                onClick={quantity >= max ? undefined : increment}
+                onClick={quantity >= props.max ? undefined : increment}
                 className={cn('p-1 cursor-pointer hover:bg-secondary select-none', {
-                    'opacity-50 pointer-events-none': quantity >= max
+                    'opacity-50 pointer-events-none': quantity >= props.max
                 })}
             >
                 <PlusIcon className='size-3.5' />
