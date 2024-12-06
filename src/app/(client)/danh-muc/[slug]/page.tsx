@@ -1,7 +1,8 @@
-import Banner, { BannerFooter } from '@/theme/banner';
-import HomePosts from '@/theme/posts/HomePosts';
-import { HomeProduct } from '@/theme/product';
+import Banner from '@/theme/banner';
+import { ProductsCategory } from '@/theme/product';
+import Filter from '@/theme/product/Filter';
 import { BannerType } from '@/types/banner';
+import React from 'react';
 
 const banners: BannerType = {
     main: [
@@ -36,13 +37,17 @@ const banners: BannerType = {
     }
 };
 
-export default async function Home() {
+const PageCategory = () => {
     return (
         <main>
             <Banner banners={banners} />
-            <HomeProduct />
-            <HomePosts />
-            <BannerFooter />
+            <div className='max-w-screen-xl px-4 mx-auto mt-14 flex items-center justify-between'>
+                <h2 className='text-2xl font-semibold'>Điện thoại</h2>
+                <Filter />
+            </div>
+            <ProductsCategory />
         </main>
     );
-}
+};
+
+export default PageCategory;

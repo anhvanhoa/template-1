@@ -47,4 +47,9 @@ export type ProductDetailType = {
         }[];
         quantity: number;
     }[];
+    categories: {
+        id: number;
+        name: string;
+        slug: string;
+    }[]
 };

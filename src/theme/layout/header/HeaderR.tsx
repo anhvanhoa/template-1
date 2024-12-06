@@ -3,10 +3,20 @@ import Link from 'next/link';
 import React from 'react';
 import Cart from './Cart';
 import Search from './Search';
+import { LibraryBig } from 'lucide-react';
 
 const HeaderR = () => {
     return (
         <div className='flex justify-end gap-2 items-center'>
+            <Link href={'/bai-viet'}>
+                <Button
+                    className='py-2 px-3 rounded-full shadow-none'
+                    variant={'outline'}
+                >
+                    <LibraryBig />
+                    <span className='font-normal'>Bài viết</span>
+                </Button>
+            </Link>
             <Search />
             <Cart />
             <Link href={'/dang-nhap'}>

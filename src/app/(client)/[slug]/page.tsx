@@ -8,18 +8,9 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator
 } from '@/components/ui/breadcrumb';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue
-} from '@/components/ui/select';
-import { Card, CardContent } from '@/components/ui/card';
-import { Star, ThumbsUp } from 'lucide-react';
+import { Star } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ImageProduct } from '@/theme/product';
+import { ImageProduct, RelatedProducts, Review } from '@/theme/product';
 import Variants from '@/theme/product/Variants';
 import { ProductDetailType } from '@/types/product';
 import Prices from '@/theme/product/Prices';
@@ -41,6 +32,18 @@ const pro: ProductDetailType = {
         { id: 4, url: '/pro-2.png' },
         { id: 5, url: '/pro-1.png' }
     ],
+    categories: [
+        {
+            id: 1,
+            name: 'Giày thể thao',
+            slug: 'giay-the-thao'
+        },
+        {
+            id: 2,
+            name: 'Giày chạy bộ',
+            slug: 'giay-chay-bo'
+        }
+    ],
     stars: 4.8,
     totalReviews: 47,
     price: 39900000,
@@ -49,7 +52,7 @@ const pro: ProductDetailType = {
     discount: 15000000,
     name: 'Shoes Reebok Zig Kinetica 3',
     description:
-        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse rerum quas ratione ducimus, nesciunt consequuntur impedit asperiores sed natus iusto porro, nisi qui recusandae nemo ipsam accusamus laudantium distinctio autem!',
+        'Đôi giày chạy bộ UltraSpeed Pro là sự kết hợp hoàn hảo giữa thiết kế hiện đại và hiệu suất vượt trội. Được làm từ chất liệu siêu nhẹ, giày mang lại cảm giác thoải mái và thoáng khí suốt cả ngày dài. Đế giày được thiết kế với công nghệ giảm chấn tiên tiến, giúp bảo vệ bàn chân khỏi các chấn động khi di chuyển trên nhiều loại địa hình. Sản phẩm này không chỉ phù hợp cho những người yêu thích chạy bộ, mà còn là lựa chọn lý tưởng cho các hoạt động thể thao và dạo phố. Với nhiều màu sắc trẻ trung và phong cách, UltraSpeed Pro chắc chắn sẽ làm hài lòng cả những khách hàng khó tính nhất.',
     attributes: [
         {
             id: 1,
@@ -218,18 +221,24 @@ const ProductDetail = async ({}: Props) => {
                     <BreadcrumbList>
                         <BreadcrumbItem>
                             <BreadcrumbLink asChild>
-                                <Link href='/'>Home</Link>
+                                <Link href='/'>Trang chủ</Link>
                             </BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
+                        {pro.categories.map((category) => (
+                            <div key={category.id} className='flex items-center gap-2'>
+                                <BreadcrumbItem>
+                                    <BreadcrumbLink asChild>
+                                        <Link href={`/category/${category.slug}`}>
+                                            {category.name}
+                                        </Link>
+                                    </BreadcrumbLink>
+                                </BreadcrumbItem>
+                                <BreadcrumbSeparator />
+                            </div>
+                        ))}
                         <BreadcrumbItem>
-                            <BreadcrumbLink asChild>
-                                <Link href='/components'>Components</Link>
-                            </BreadcrumbLink>
-                        </BreadcrumbItem>
-                        <BreadcrumbSeparator />
-                        <BreadcrumbItem>
-                            <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+                            <BreadcrumbPage>{pro.name}</BreadcrumbPage>
                         </BreadcrumbItem>
                     </BreadcrumbList>
                 </Breadcrumb>
@@ -277,171 +286,19 @@ const ProductDetail = async ({}: Props) => {
                             </TabsTrigger>
                         </TabsList>
                         <TabsContent value='des' className='p-4'>
+                            <h3 className='uppercase text-xl mt-2 pb-4'>
+                                Mô tả sản phẩm
+                            </h3>
                             <div
                                 dangerouslySetInnerHTML={{ __html: pro.description }}
                             ></div>
                         </TabsContent>
                         <TabsContent value='review' className='p-4'>
-                            <div className=''>
-                                <div className='grid md:grid-cols-3 gap-6'>
-                                    <div className='space-y-6 col-span-2'>
-                                        <Select defaultValue='newest'>
-                                            <SelectTrigger className=''>
-                                                <SelectValue placeholder='Sort by' />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem value='newest'>
-                                                    Newest
-                                                </SelectItem>
-                                                <SelectItem value='highest'>
-                                                    Highest Rated
-                                                </SelectItem>
-                                                <SelectItem value='lowest'>
-                                                    Lowest Rated
-                                                </SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                        <div className='space-y-4'>
-                                            <div className='flex gap-4 items-start'>
-                                                <Avatar className='w-10 h-10'>
-                                                    <AvatarImage src='/placeholder.svg' />
-                                                    <AvatarFallback>HM</AvatarFallback>
-                                                </Avatar>
-                                                <div className='space-y-1'>
-                                                    <div className='flex items-center gap-2'>
-                                                        <span className='font-medium'>
-                                                            Helen M.
-                                                        </span>
-                                                        <span className='text-sm text-muted-foreground'>
-                                                            Yesterday
-                                                        </span>
-                                                    </div>
-                                                    <div className='flex gap-0.5'>
-                                                        {Array(5)
-                                                            .fill(null)
-                                                            .map((_, i) => (
-                                                                <Star
-                                                                    key={i}
-                                                                    className='w-4 h-4 fill-primary text-primary'
-                                                                />
-                                                            ))}
-                                                    </div>
-                                                    <p className='text-sm'>
-                                                        Excellent running shoes. It turns
-                                                        very sharply on the foot.
-                                                    </p>
-                                                    <div className='flex items-center gap-4 text-sm text-muted-foreground'>
-                                                        <button className='flex items-center gap-1 hover:text-foreground'>
-                                                            Reply
-                                                        </button>
-                                                        <button className='flex items-center gap-1 hover:text-foreground'>
-                                                            <ThumbsUp className='w-4 h-4' />
-                                                            42
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className='flex gap-4 items-start'>
-                                                <Avatar className='w-10 h-10'>
-                                                    <AvatarImage src='/placeholder.svg' />
-                                                    <AvatarFallback>AH</AvatarFallback>
-                                                </Avatar>
-                                                <div className='space-y-1'>
-                                                    <div className='flex items-center gap-2'>
-                                                        <span className='font-medium'>
-                                                            Ann H.
-                                                        </span>
-                                                        <span className='text-sm text-muted-foreground'>
-                                                            2 days ago
-                                                        </span>
-                                                    </div>
-                                                    <div className='flex gap-0.5'>
-                                                        {Array(4)
-                                                            .fill(null)
-                                                            .map((_, i) => (
-                                                                <Star
-                                                                    key={i}
-                                                                    className='w-4 h-4 fill-primary text-primary'
-                                                                />
-                                                            ))}
-                                                    </div>
-                                                    <p className='text-sm'>Good shoes</p>
-                                                    <div className='flex items-center gap-4 text-sm text-muted-foreground'>
-                                                        <button className='flex items-center gap-1 hover:text-foreground'>
-                                                            Reply
-                                                        </button>
-                                                        <button className='flex items-center gap-1 hover:text-foreground'>
-                                                            <ThumbsUp className='w-4 h-4' />
-                                                            55
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className='space-y-6'>
-                                        <div className='space-y-4'>
-                                            <div className='flex items-center gap-2'>
-                                                <div className='flex gap-0.5'>
-                                                    {Array(5)
-                                                        .fill(null)
-                                                        .map((_, i) => (
-                                                            <Star
-                                                                key={i}
-                                                                className='w-5 h-5 fill-primary text-primary'
-                                                            />
-                                                        ))}
-                                                </div>
-                                                <span className='text-2xl font-bold'>
-                                                    4.8
-                                                </span>
-                                            </div>
-                                            <div className='space-y-2'>
-                                                {[
-                                                    { stars: 5, count: 28 },
-                                                    { stars: 4, count: 9 },
-                                                    { stars: 3, count: 4 },
-                                                    { stars: 2, count: 1 },
-                                                    { stars: 1, count: 1 }
-                                                ].map(({ stars, count }) => (
-                                                    <div
-                                                        key={stars}
-                                                        className='flex items-center gap-2'
-                                                    >
-                                                        <span className='text-sm w-3'>
-                                                            {stars}
-                                                        </span>
-                                                        <div className='h-2 bg-muted rounded-full flex-1 overflow-hidden'>
-                                                            <div
-                                                                className='h-full bg-primary rounded-full'
-                                                                style={{
-                                                                    width: `${
-                                                                        (count / 43) * 100
-                                                                    }%`
-                                                                }}
-                                                            />
-                                                        </div>
-                                                        <span className='text-sm w-6'>
-                                                            {count}
-                                                        </span>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-
-                                        <Card>
-                                            <CardContent className='p-4'>
-                                                <h3 className='font-semibold text-lg'>
-                                                    Popular brands with discounts over 25%
-                                                </h3>
-                                            </CardContent>
-                                        </Card>
-                                    </div>
-                                </div>
-                            </div>
+                            <Review />
                         </TabsContent>
                     </Tabs>
                 </div>
+                <RelatedProducts />
             </div>
         </ProductProvider>
     );

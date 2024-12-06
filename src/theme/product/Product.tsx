@@ -3,6 +3,7 @@ import { ProductType } from '@/types/product';
 import { ShoppingBag, StarIcon } from 'lucide-react';
 import React from 'react';
 import FormatPrice from '../common/FormatPrice';
+import Link from 'next/link';
 
 type ProductProps = {
     product: ProductType;
@@ -11,17 +12,21 @@ type ProductProps = {
 const Product = ({ product }: ProductProps) => {
     return (
         <div className='bg-gray-100 rounded-xl overflow-hidden'>
-            <div
-                className='aspect-square bg-cover bg-top border-b'
-                style={{
-                    backgroundImage: `url(${product.image})`
-                }}
-            ></div>
+            <Link href={`/${product.slug}`}>
+                <div
+                    className='aspect-square bg-cover bg-top border-b'
+                    style={{
+                        backgroundImage: `url(${product.image})`
+                    }}
+                ></div>
+            </Link>
             <div className='px-3 pb-4 pt-5'>
-                <h3 className='font-medium line-clamp-1 text-sm'>{product.title}</h3>
+                <Link href={`/${product.slug}`} className='hover:underline transition-all'>
+                    <h3 className='font-medium line-clamp-1 text-sm'>{product.title}</h3>
+                </Link>
                 <div className='py-3 space-y-3'>
                     <p className='text-sm space-x-2'>
-                        <span className='text-xs inline-flex gap-x-1 items-center text-red-500 border rounded-full border-red-500 px-1 py-0.5'>
+                        <span className='text-xs inline-flex gap-x-1 items-center text-red-500 border rounded-full border-red-500 px-2 py-0.5'>
                             -
                             {product.typeDiscount === 'percent'
                                 ? `${product.discount}%`

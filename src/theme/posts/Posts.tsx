@@ -2,6 +2,7 @@ import { PostType } from '@/types/posts';
 import Image from 'next/image';
 import React from 'react';
 import { format } from 'date-fns';
+import Link from 'next/link';
 
 type PostsProps = {
     posts: PostType;
@@ -9,12 +10,12 @@ type PostsProps = {
 
 const Posts = ({ posts }: PostsProps) => {
     return (
-        <div className='bg-gray-50 rounded-md'>
-            <div className='h-40 bg-gray-300 rounded-t-lg'>
+        <Link href={`/bai-viet/${posts.title}`} className='bg-gray-50 rounded-md'>
+            <div className='h-40 bg-gray-300 rounded-t-lg aspect-video w-full'>
                 <Image
                     src={posts.image}
                     alt={posts.title}
-                    className='rounded-t-lg object-cover'
+                    className='rounded-t-lg w-full object-cover aspect-video'
                     width={300}
                     height={200}
                 />
@@ -35,7 +36,7 @@ const Posts = ({ posts }: PostsProps) => {
                     {posts.description}
                 </p>
             </div>
-        </div>
+        </Link>
     );
 };
 
