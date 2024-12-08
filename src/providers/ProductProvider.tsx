@@ -4,6 +4,11 @@ import React, { createContext } from 'react';
 
 const proDefault: ProductDetailType = {
     id: '1',
+    categories: [{
+        id: 1,
+        name: 'Ipad',
+        slug: 'ipad'
+    }],
     thumbnail: '/pro-1.png',
     images: [
         { id: 1, url: '/pro-1.png' },

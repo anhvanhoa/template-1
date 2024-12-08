@@ -13,6 +13,7 @@ import { ShoppingCart, Trash } from 'lucide-react';
 import Image from 'next/image';
 import Quantity from './Quantity';
 import FormatPrice from '@/theme/common/FormatPrice';
+import Link from 'next/link';
 
 const cart: {
     count?: number;
@@ -44,6 +45,126 @@ const pros = [
     },
     {
         id: 2,
+        name: 'IMac 24 inch với chip M2',
+        price: 34999000,
+        image: '/pro-2.png',
+        quantity: 3,
+        quantityMax: 22,
+        variant: [
+            {
+                id: 1,
+                name: 'Màu',
+                value: 'đen'
+            },
+            {
+                id: 2,
+                name: 'RAM',
+                value: '16GB'
+            }
+        ]
+    },
+    {
+        id: 3,
+        name: 'IMac 24 inch với chip M2',
+        price: 34999000,
+        image: '/pro-2.png',
+        quantity: 3,
+        quantityMax: 22,
+        variant: [
+            {
+                id: 1,
+                name: 'Màu',
+                value: 'đen'
+            },
+            {
+                id: 2,
+                name: 'RAM',
+                value: '16GB'
+            }
+        ]
+    },
+    {
+        id: 4,
+        name: 'IMac 24 inch với chip M2',
+        price: 34999000,
+        image: '/pro-2.png',
+        quantity: 3,
+        quantityMax: 22,
+        variant: [
+            {
+                id: 1,
+                name: 'Màu',
+                value: 'đen'
+            },
+            {
+                id: 2,
+                name: 'RAM',
+                value: '16GB'
+            }
+        ]
+    },
+    {
+        id: 5,
+        name: 'IMac 24 inch với chip M2',
+        price: 34999000,
+        image: '/pro-2.png',
+        quantity: 3,
+        quantityMax: 22,
+        variant: [
+            {
+                id: 1,
+                name: 'Màu',
+                value: 'đen'
+            },
+            {
+                id: 2,
+                name: 'RAM',
+                value: '16GB'
+            }
+        ]
+    },
+    {
+        id: 6,
+        name: 'IMac 24 inch với chip M2',
+        price: 34999000,
+        image: '/pro-2.png',
+        quantity: 3,
+        quantityMax: 22,
+        variant: [
+            {
+                id: 1,
+                name: 'Màu',
+                value: 'đen'
+            },
+            {
+                id: 2,
+                name: 'RAM',
+                value: '16GB'
+            }
+        ]
+    },
+    {
+        id: 7,
+        name: 'IMac 24 inch với chip M2',
+        price: 34999000,
+        image: '/pro-2.png',
+        quantity: 3,
+        quantityMax: 22,
+        variant: [
+            {
+                id: 1,
+                name: 'Màu',
+                value: 'đen'
+            },
+            {
+                id: 2,
+                name: 'RAM',
+                value: '16GB'
+            }
+        ]
+    },
+    {
+        id: 8,
         name: 'IMac 24 inch với chip M2',
         price: 34999000,
         image: '/pro-2.png',
@@ -95,64 +216,70 @@ const Cart = () => {
                     )}
                 </Button>
             </SheetTrigger>
-            <SheetContent>
-                <SheetHeader>
+            <SheetContent className='flex flex-col gap-y-0 p-0'>
+                <SheetHeader className='shrink-0 p-4 bg-white'>
                     <SheetTitle className='font-medium text-base'>
                         Giỏ hàng của tôi
                     </SheetTitle>
                     <SheetDescription className='sr-only'></SheetDescription>
-                    <div>
-                        <div className='-my-4'>
-                            {products.map((product) => (
-                                <div
-                                    key={product.id}
-                                    className='border-b last:border-b-0 py-6 flex gap-4'
-                                >
-                                    <div className='border rounded-xl overflow-hidden p-1'>
-                                        <Image
-                                            src={product.image}
-                                            alt={product.name}
-                                            width={100}
-                                            height={100}
-                                            className='size-20 object-cover '
+                </SheetHeader>
+                <div className='flex-1 overflow-auto'>
+                    <div className='px-4 -my-4'>
+                        {products.map((product) => (
+                            <div
+                                key={product.id}
+                                className='border-b last:border-b-0 py-6 flex gap-4'
+                            >
+                                <div className='border rounded-xl overflow-hidden p-1'>
+                                    <Image
+                                        src={product.image}
+                                        alt={product.name}
+                                        width={100}
+                                        height={100}
+                                        className='size-20 object-cover '
+                                    />
+                                </div>
+                                <div className='text-sm flex-1 *:mb-1'>
+                                    <div className='flex items-center justify-between'>
+                                        <h4 className='line-clamp-1'>{product.name}</h4>
+                                        <Button
+                                            onClick={handleRemove(product.id)}
+                                            variant='ghost'
+                                            className='text-red-500 p-1 hover:text-red-500'
+                                        >
+                                            <Trash />
+                                        </Button>
+                                    </div>
+                                    <div className='flex items-center justify-between'>
+                                        <p className='text-primary font-medium'>
+                                            <FormatPrice price={product.price} />
+                                        </p>
+                                        <Quantity
+                                            id={product.id}
+                                            max={product.quantityMax}
+                                            quantity={product.quantity}
                                         />
                                     </div>
-                                    <div className='text-sm flex-1 *:mb-1'>
-                                        <div className='flex items-center justify-between'>
-                                            <h4 className='line-clamp-1'>
-                                                {product.name}
-                                            </h4>
-                                            <Button
-                                                onClick={handleRemove(product.id)}
-                                                variant='ghost'
-                                                className='text-red-500 p-1 hover:text-red-500'
-                                            >
-                                                <Trash />
-                                            </Button>
-                                        </div>
-                                        <div className='flex items-center justify-between'>
-                                            <p className='text-primary font-medium'>
-                                                <FormatPrice price={product.price} />
-                                            </p>
-                                            <Quantity
-                                                max={product.quantityMax}
-                                                quantity={product.quantity}
-                                            />
-                                        </div>
-                                        <p className='text-muted-foreground'>
-                                            {product.variant
-                                                .map(
-                                                    (variant) =>
-                                                        `${variant.name}: ${variant.value}`
-                                                )
-                                                .join(', ')}
-                                        </p>
-                                    </div>
+                                    <p className='text-muted-foreground'>
+                                        {product.variant
+                                            .map(
+                                                (variant) =>
+                                                    `${variant.name}: ${variant.value}`
+                                            )
+                                            .join(', ')}
+                                    </p>
                                 </div>
-                            ))}
-                        </div>
+                            </div>
+                        ))}
                     </div>
-                </SheetHeader>
+                </div>
+                <div className='mx-8 py-2'>
+                    <SheetTrigger asChild>
+                        <Link href={'/gio-hang'}>
+                            <Button className='w-full rounded-full'>Xem giỏ hàng</Button>
+                        </Link>
+                    </SheetTrigger>
+                </div>
             </SheetContent>
         </Sheet>
     );
