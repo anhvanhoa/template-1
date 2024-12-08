@@ -4,6 +4,7 @@ import React from 'react';
 import Cart from './Cart';
 import Search from './Search';
 import { LibraryBig } from 'lucide-react';
+// import Account from './Account';
 
 const HeaderR = () => {
     return (
@@ -19,6 +20,7 @@ const HeaderR = () => {
             </Link>
             <Search />
             <Cart />
+            {/* <Account /> */}
             <Link href={'/dang-nhap'}>
                 <Button className='border border-primary rounded-full py-1.5 font-medium'>
                     Đăng nhập

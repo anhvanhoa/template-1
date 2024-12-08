@@ -116,7 +116,7 @@ const dataFooter = [
 
 export default function Footer({ className }: Props) {
     return (
-        <div className={cn('mt-24 border-t border-zinc-100', className)}>
+        <div className={cn('mt-12 border-t border-zinc-100', className)}>
             <footer
                 className='mx-auto w-full max-w-screen-xl px-4 sm:px-6'
                 aria-labelledby='footer-heading'
