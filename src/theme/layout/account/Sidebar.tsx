@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
 
+const basePath = '/tai-khoan';
+
 const sidebarMenus = [
     {
         title: 'Tài khoản',
@@ -32,7 +34,7 @@ const sidebarMenus = [
 const Sidebar = () => {
     const pathName = usePathname();
     return (
-        <div className='w-80 mr-8 min-h-56 border-r flex flex-col justify-between'>
+        <div className='w-80 min-h-[90vh] max-h-[90vh] sticky top-12 mr-8 border-r flex flex-col justify-between'>
             <div className='grid'>
                 {sidebarMenus.map((menu) => (
                     <Link href={menu.href} key={menu.href} className='-mr-[1px]'>
@@ -42,7 +44,9 @@ const Sidebar = () => {
                                 'text-muted-foreground py-2 px-6 hover:bg-transparent font-normal hover:text-primary w-full justify-start border-r rounded-none',
                                 {
                                     'text-primary font-medium border-primary border-r-[3px]':
-                                        pathName === menu.href
+                                        pathName === menu.href ||
+                                        (pathName.includes(menu.href) &&
+                                            menu.href !== basePath)
                                 }
                             )}
                         >

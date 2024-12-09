@@ -14,10 +14,11 @@ type CartItemProps = {
     product: CartItemType;
     isSelect?: boolean;
     checked?: boolean;
+    isOrder?: boolean;
     onCheck?: (checked: CheckedState) => void;
 };
 
-const CartItem = ({ product, isSelect, checked, onCheck }: CartItemProps) => {
+const CartItem = ({ product, isSelect, checked, onCheck, isOrder }: CartItemProps) => {
     const id = useId();
     return (
         <div className='border-b last:border-b-0 pb-4 flex gap-4'>
@@ -38,12 +39,14 @@ const CartItem = ({ product, isSelect, checked, onCheck }: CartItemProps) => {
             <div className='text-sm flex-1 space-y-1.5'>
                 <div className='flex items-center justify-between'>
                     <h4 className='line-clamp-1'>{product.name}</h4>
-                    <Button
-                        variant='ghost'
-                        className='text-red-500 p-1 hover:text-red-500'
-                    >
-                        <Trash />
-                    </Button>
+                    {!isOrder && (
+                        <Button
+                            variant='ghost'
+                            className='text-red-500 p-1 hover:text-red-500'
+                        >
+                            <Trash />
+                        </Button>
+                    )}
                 </div>
                 <div className='flex items-center justify-between'>
                     <p className='flex items-center gap-x-3'>
@@ -56,11 +59,13 @@ const CartItem = ({ product, isSelect, checked, onCheck }: CartItemProps) => {
                             price={product.price}
                         />
                     </p>
-                    <Quantity
-                        id={product.id}
-                        max={product.quantityMax}
-                        quantity={product.quantity}
-                    />
+                    {!isOrder && (
+                        <Quantity
+                            id={product.id}
+                            max={product.quantityMax}
+                            quantity={product.quantity}
+                        />
+                    )}
                 </div>
                 <p className='text-muted-foreground'>
                     {product.variant
