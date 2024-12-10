@@ -18,7 +18,7 @@ export function TeamSwitcher({
             <SidebarMenuItem>
                 <SidebarMenuButton
                     size='lg'
-                    className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
+                    className='hover:bg-transparent data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
                 >
                     {!site.logo && (
                         <div className='flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground'>

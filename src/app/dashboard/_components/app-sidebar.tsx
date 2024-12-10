@@ -128,15 +128,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         des: string;
     };
     return (
-        <Sidebar collapsible='icon' {...props}>
-            <SidebarHeader>
+        <Sidebar className='border-none' collapsible='icon' {...props}>
+            <SidebarHeader className='bg-background'>
                 <TeamSwitcher site={site} />
             </SidebarHeader>
-            <SidebarContent>
+            <SidebarContent className='bg-background'>
                 <NavMain items={data.navMain} />
                 <NavProjects projects={data.projects} />
             </SidebarContent>
-            <SidebarFooter>
+            <SidebarFooter className='bg-background'>
                 <NavUser user={data.user} />
             </SidebarFooter>
         </Sidebar>
