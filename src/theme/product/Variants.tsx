@@ -12,25 +12,17 @@ const Variants = () => {
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [formBuy, setFormBuy] = useState({
         idProduct: product.id,
-        idProductVariant: '',
         quantity: '1'
     });
 
     const quantityAvailableMax = useMemo(() => {
-        if (!product.variants) return product.quantity || 0;
-        return product.variants.reduce((acc, variant) => {
-            if (
-                Object.entries(selectedVariant).every(([key, value]) =>
-                    variant.attributes.some(
-                        (attr) =>
-                            attr.id === Number(key) && attr.value.id === Number(value)
-                    )
-                )
-            ) {
-                acc += variant.quantity;
-            }
-            return acc;
-        }, 0);
+        if (!product.variants) return product.quantity || undefined;
+        const variant = product.variants.find((variant) => {
+            return variant.attributes.every((attr) => {
+                return selectedVariant[attr.id] === attr.value.id.toString();
+            });
+        });
+        return variant?.quantity || undefined;
     }, [product.quantity, product.variants, selectedVariant]);
 
     const getAvailableValues = (attrId: number) => {
@@ -41,10 +33,7 @@ const Variants = () => {
             if (
                 variant.quantity > 0 &&
                 Object.entries(selectedAttrs).every(([key, value]) =>
-                    variant.attributes.some(
-                        (attr) =>
-                            attr.id === Number(key) && attr.value.id === Number(value)
-                    )
+                    variant.attributes.some((attr) => attr.id === Number(key) && attr.value.id === Number(value))
                 )
             ) {
                 const attrValue = variant.attributes.find((attr) => attr.id === attrId);
@@ -76,9 +65,7 @@ const Variants = () => {
 
     const incrementQuantity = () => {
         const quantity =
-            Number(formBuy.quantity) === quantityAvailableMax
-                ? formBuy.quantity
-                : Number(formBuy.quantity) + 1;
+            Number(formBuy.quantity) === quantityAvailableMax ? formBuy.quantity : Number(formBuy.quantity) + 1;
         setFormBuy((prev) => ({ ...prev, quantity: quantity.toString() }));
     };
     const decrementQuantity = () => {
@@ -90,14 +77,20 @@ const Variants = () => {
         setFormBuy((prev) => ({ ...prev, quantity }));
     };
 
+    const getProductVariantId = () => {
+        if (!product.variants) return undefined;
+        const variant = product.variants.find((variant) => {
+            return variant.attributes.every((attr) => {
+                return selectedVariant[attr.id] === attr.value.id.toString();
+            });
+        });
+        return variant?.id;
+    };
+
     const validateForm = () => {
         let isValid = false;
-        if (
-            product.variants &&
-            product.variants.length > 0 &&
-            product.attributes &&
-            Object.keys(selectedVariant).length !== product.attributes.length
-        ) {
+        const variantId = getProductVariantId();
+        if (product.variants && product.variants.length > 0 && product.attributes && !variantId) {
             setErrors((prev) => ({
                 ...prev,
                 variant: 'Vui lòng chọn thuộc tính'
@@ -116,12 +109,14 @@ const Variants = () => {
 
     const handleBuy = () => {
         if (validateForm()) return;
-        console.log('Buy', formBuy);
+        const variantId = getProductVariantId();
+        console.log('Buy', formBuy, variantId);
     };
 
     const handleAddToCart = () => {
         if (validateForm()) return;
-        console.log('Add to cart', formBuy);
+        const variantId = getProductVariantId();
+        console.log('Buy', formBuy, variantId);
     };
 
     return (
@@ -134,10 +129,7 @@ const Variants = () => {
                 {product.attributes &&
                     product.attributes.map((attr) => (
                         <div key={attr.id}>
-                            <Label
-                                className='text-sm font-medium mb-2 block'
-                                id={`attr-label-${attr.id}`}
-                            >
+                            <Label className='text-sm font-medium mb-2 block' id={`attr-label-${attr.id}`}>
                                 {attr.name}
                             </Label>
                             <div className='grid grid-cols-5 gap-2'>
@@ -145,24 +137,17 @@ const Variants = () => {
                                     <Button
                                         variant={'secondary'}
                                         key={item.id}
-                                        onClick={() =>
-                                            handleSelectVariant(
-                                                attr.id,
-                                                item.id.toString()
-                                            )
-                                        }
+                                        onClick={() => handleSelectVariant(attr.id, item.id.toString())}
                                         className={cn(
                                             'flex items-center justify-center rounded-lg border border-muted bg-background py-2 text-sm transition-all hover:border-primary',
                                             'cursor-pointer shadow-none font-normal hover:text-primary hover:bg-transparent',
                                             {
                                                 'border-primary bg-primary/10 text-primary font-semibold':
-                                                    selectedVariant[attr.id] ===
-                                                    item.id.toString(),
-                                                'pointer-events-none opacity-50':
-                                                    !isValueAvailable(
-                                                        attr.id,
-                                                        item.id.toString()
-                                                    )
+                                                    selectedVariant[attr.id] === item.id.toString(),
+                                                'pointer-events-none opacity-50': !isValueAvailable(
+                                                    attr.id,
+                                                    item.id.toString()
+                                                )
                                             }
                                         )}
                                     >
@@ -172,9 +157,7 @@ const Variants = () => {
                             </div>
                         </div>
                     ))}
-                {errors.variant && (
-                    <p className='text-sm text-red-500'>{errors.variant}</p>
-                )}
+                {errors.variant && <p className='text-sm text-red-500'>{errors.variant}</p>}
             </div>
             <div>
                 <Label htmlFor='quantity' className='text-sm font-medium mb-2 block'>
@@ -187,22 +170,13 @@ const Variants = () => {
                 >
                     <div className='flex items-center gap-x-4'>
                         <div
-                            className={cn(
-                                'inline-flex items-center gap-1 border rounded-lg px-1',
-                                {
-                                    'pointer-events-none opacity-50':
-                                        product.attributes &&
-                                        Object.keys(selectedVariant).length !==
-                                            product.attributes.length
-                                }
-                            )}
+                            className={cn('inline-flex items-center gap-1 border rounded-lg px-1', {
+                                'pointer-events-none opacity-50':
+                                    product.attributes &&
+                                    Object.keys(selectedVariant).length !== product.attributes.length
+                            })}
                         >
-                            <Button
-                                size='sm'
-                                variant='ghost'
-                                className='p-2'
-                                onClick={decrementQuantity}
-                            >
+                            <Button size='sm' variant='ghost' className='p-2' onClick={decrementQuantity}>
                                 <MinusIcon />
                             </Button>
                             <Input
@@ -217,30 +191,21 @@ const Variants = () => {
                                 }}
                                 aria-label='Số lượng'
                             />
-                            <Button
-                                size='sm'
-                                variant='ghost'
-                                className='p-2'
-                                onClick={incrementQuantity}
-                            >
+                            <Button size='sm' variant='ghost' className='p-2' onClick={incrementQuantity}>
                                 <PlusIcon />
                             </Button>
                         </div>
-                        <span className='text-sm text-muted-foreground'>
-                            Còn lại {quantityAvailableMax} sản phẩm
-                        </span>
+                        {quantityAvailableMax !== undefined && (
+                            <span className='text-sm text-muted-foreground'>
+                                Còn lại {quantityAvailableMax} sản phẩm
+                            </span>
+                        )}
                     </div>
-                    {errors.quantity && (
-                        <p className='text-sm text-red-500'>{errors.quantity}</p>
-                    )}
+                    {errors.quantity && <p className='text-sm text-red-500'>{errors.quantity}</p>}
                 </div>
             </div>
             <div className='flex gap-4 pt-6'>
-                <Button
-                    onClick={handleBuy}
-                    size='lg'
-                    className='flex-1 py-3 rounded-full border border-primary'
-                >
+                <Button onClick={handleBuy} size='lg' className='flex-1 py-3 rounded-full border border-primary'>
                     Mua ngay
                 </Button>
                 <Button

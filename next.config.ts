@@ -5,10 +5,20 @@ const nextConfig: NextConfig = {
         reactCompiler: true
     },
     images: {
-        remotePatterns: [{
-            hostname: 'avatar.vercel.sh',
-            protocol: 'https',
-        }]
+        remotePatterns: [
+            {
+                hostname: 'avatar.vercel.sh',
+                protocol: 'https'
+            },
+            {
+                hostname: 'placehold.co',
+                protocol: 'https'
+            },
+            {
+                hostname: 'picsum.photos',
+                protocol: 'https'
+            }
+        ]
     }
 };
 
